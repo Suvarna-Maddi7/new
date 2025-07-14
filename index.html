@@ -1,92 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <title>Event Registration Form</title>
- <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Registration Form</title>
+<style>
+  /* Reset & base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
   body {
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f7f9fc;
+    margin: 0; padding: 0;
     display: flex;
     justify-content: center;
-    padding: 50px;
+    align-items: center;
+    height: 100vh;
   }
-  form {
+  .container {
     background: white;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    width: 350px;
-  }
-  input, select, textarea {
+    padding: 2rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 450px;
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  button {
-    background: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-  }
-  button:hover {
-    background: #45a049;
   }
   h2 {
     text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
   }
- </style>
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    display: block;
+    color: #555;
+  }
+  input, select {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1.8px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+    width: 100%;
+  }
+  input:focus, select:focus {
+    border-color: #005fcc;
+    outline: none;
+  }
+  small.error {
+    color: #d93025;
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+    display: none;
+  }
+  button {
+    margin-top: 1.25rem;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    background-color: #005fcc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #004bb5;
+  }
+  .success-message {
+    text-align: center;
+    color: #0a8a00;
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+</style>
 </head>
 <body>
-<form action="/submit" method="POST">
-  <h2>Event Registration</h2>
 
-  <label for="name">Full Name</label>
-  <input type="text" id="name" name="name" required>
+<div class="container">
+  <h2>Register an Account</h2>
+  <form id="registrationForm" novalidate>
+    <div>
+      <label for="fullname">Full Name *</label>
+      <input type="text" id="fullname" name="fullname" required minlength="3" placeholder="John Doe" />
+      <small class="error">Please enter at least 3 characters.</small>
+    </div>
 
-  <label for="email">Email Address</label>
-  <input type="email" id="email" name="email" required>
+    <div>
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" name="email" required placeholder="example@mail.com" />
+      <small class="error">Please enter a valid email address.</small>
+    </div>
 
-  <label for="phone">Phone Number</label>
-  <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+    <div>
+      <label for="username">Username *</label>
+      <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9_]{4,15}$" placeholder="Username (4-15 chars, letters/numbers/_)" />
+      <small class="error">Username must be 4-15 characters, letters, numbers, or underscores only.</small>
+    </div>
 
-  <label for="dob">Date of Birth</label>
-  <input type="date" id="dob" name="dob" required>
+    <div>
+      <label for="password">Password *</label>
+      <input type="password" id="password" name="password" required minlength="8" placeholder="At least 8 characters" />
+      <small class="error">Password must be at least 8 characters.</small>
+    </div>
 
-  <label for="address">Address</label>
-  <textarea id="address" name="address" rows="3"></textarea>
+    <div>
+      <label for="confirmPassword">Confirm Password *</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repeat your password" />
+      <small class="error">Passwords do not match.</small>
+    </div>
 
-  <label for="event">Choose Event</label>
-  <select id="event" name="event" required>
-    <option value="">--Select--</option>
-    <option value="coding">Coding Contest</option>
-    <option value="debate">Debate</option>
-    <option value="music">Music Show</option>
-  </select>
+    <div>
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" aria-label="Gender">
+        <option value="" selected disabled>Select gender</option>
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+        <option value="other">Other / Prefer not to say</option>
+      </select>
+    </div>
 
-  <label for="gender">Gender</label>
-  <select id="gender" name="gender" required>
-    <option value="">--Select--</option>
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="other">Other</option>
-  </select>
+    <button type="submit">Register</button>
+    <div class="success-message" aria-live="polite"></div>
+  </form>
+</div>
 
-  <label for="comments">Additional Comments</label>
-  <textarea id="comments" name="comments" rows="3"></textarea>
+<script>
+  const form = document.getElementById('registrationForm');
+  const fullname = form.fullname;
+  const email = form.email;
+  const username = form.username;
+  const password = form.password;
+  const confirmPassword = form.confirmPassword;
+  const successMessage = document.querySelector('.success-message');
 
-  <label>
-    <input type="checkbox" name="subscribe" value="yes">
-    Subscribe to our newsletter
-  </label>
+  function showError(input, message) {
+    const error = input.nextElementSibling;
+    error.textContent = message;
+    error.style.display = 'block';
+    input.setAttribute('aria-invalid', 'true');
+  }
 
-  <button type="submit">Register</button>
-</form>
+  function clearError(input) {
+    const error = input.nextElementSibling;
+    error.style.display = 'none';
+    input.removeAttribute('aria-invalid');
+  }
+
+  function validateEmail(email) {
+    // Simple email regex validation
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    let valid = true;
+    successMessage.textContent = '';
+
+    // Full Name validation
+    if (!fullname.value.trim() || fullname.value.trim().length < 3) {
+      showError(fullname, 'Please enter at least 3 characters.');
+      valid = false;
+    } else {
+      clearError(fullname);
+    }
+
+    // Email validation
+    if (!email.value.trim() || !validateEmail(email.value.trim())) {
+      showError(email, 'Please enter a valid email address.');
+      valid = false;
+    } else {
+      clearError(email);
+    }
+
+    // Username validation (4-15 chars, letters, numbers, underscores)
+    const usernameRegex = /^[a-zA-Z0-9_]{4,15}$/;
+    if (!username.value.trim() || !usernameRegex.test(username.value.trim())) {
+      showError(username, 'Username must be 4-15 characters, letters, numbers, or underscores only.');
+      valid = false;
+    } else {
+      clearError(username);
+    }
+
+    // Password validation (at least 8 chars)
+    if (!password.value || password.value.length < 8) {
+      showError(password, 'Password must be at least 8 characters.');
+      valid = false;
+    } else {
+      clearError(password);
+    }
+
+    // Confirm password validation
+    if (confirmPassword.value !== password.value) {
+      showError(confirmPassword, 'Passwords do not match.');
+      valid = false;
+    } else {
+      clearError(confirmPassword);
+    }
+
+    if (valid) {
+      // Here you would typically send data to the server with AJAX or similar
+      successMessage.textContent = 'Registration successful! 🎉';
+      form.reset();
+    }
+  });
+</script>
+
 </body>
 </html>
